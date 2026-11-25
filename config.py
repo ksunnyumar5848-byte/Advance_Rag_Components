@@ -13,9 +13,9 @@ FAISS_INDEX_DIR = PROJECT_ROOT / "faiss_index"
 # OpenAI models. gpt-6-luna is a small, current chat model.
 # reasoning_effort "none" lets us set temperature for repeatable classroom runs.
 # text-embedding-3-small is the embedding model used for every vector index.
-CHAT_MODEL = "gpt-6-luna"
+CHAT_MODEL = "gemini-3.5-flash"
 CHAT_REASONING_EFFORT = "none"
-EMBEDDING_MODEL = "text-embedding-3-small"
+EMBEDDING_MODEL = "models/embedding-001"
 
 # Local cross-encoder used only by src/reranking/cross_encoder_reranking.py.
 # The first run downloads this small model from Hugging Face.
