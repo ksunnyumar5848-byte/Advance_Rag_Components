@@ -77,7 +77,17 @@ def message_text(message):
                     pieces.append(str(text))
         return "\n".join(pieces).strip()  # all the text are combine and new new line 
 
+def chat(prompt:str):
 
+    response=get_chat_model().invoke(prompt)
+
+    text=message_text(response)
+
+    if not text:
+        raise RuntimeError(
+            "The model returned an empty response. Check the API key and run the script again."
+        )
+    return text
 
     
 
