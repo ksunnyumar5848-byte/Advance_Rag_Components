@@ -1,0 +1,15 @@
+.env
+/myenv
+
+data
+
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.idea/
+
+faiss_index/
+*.egg-info/
+dist/
+build/
