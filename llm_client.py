@@ -30,6 +30,55 @@ def get_chat_model() -> ChatGoogleGenerativeAI:
         reasoning_effort=CHAT_REASONING_EFFORT
     )
 
+def get_embedding_model() -> GoogleGenerativeAIEmbeddings:
+    """
+    this methods are the create embedding because it 
+    embedding are send into the vectore db 
+    """
+    return GoogleGenerativeAIEmbeddings(
+        model=EMBEDDING_MODEL,
+        api_key=require_gemini_api_key()
+    )
+
+
+def message_text(message):
+    """
+      here message text methods are a require the msg and 
+      if msg inside the content and type a string 
+    """
+
+    content=getattr(message,"content",message)
+
+    if isinstance(content,str):
+        return content.strip() 
+
+    pieces=[]
+
+
+    if isinstance(content,str):
+
+        for block in pieces:
+
+            if isinstance(block,dict):
+                """this are cheak content are dict then this text are content  
+                   and access form the dic text or content and store the pieces list 
+                """
+                text=block.get("text") or block.get("content") or " "
+
+                if text:
+                    pieces.append(str(text))
+
+            elif isinstance(block,str):
+                pieces.append(block) # because this is all ready the string and store into the pieces list 
+
+            else:
+                text=getattr(block,"text"," ") # inside the content block and  text or empyth then push into the text 
+                if text:
+                    pieces.append(str(text))
+        return "\n".join(pieces).strip()  # all the text are combine and new new line 
+
+
+
     
 
 
