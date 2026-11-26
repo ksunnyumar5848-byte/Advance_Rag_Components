@@ -181,6 +181,13 @@ def create_faisse_store(documents:list[Document]):
      print("In-memory FAISS index is ready.")
      return store
 
+
+def save_faiss_store(store, folder=None) -> None:
+    """Save a FAISS index to disk. The teaching scripts keep indexes in memory."""
+    folder = FAISS_INDEX_DIR if folder is None else folder
+    folder.mkdir(parents=True, exist_ok=True)
+    store.save_local(str(folder))
+    print(f"Saved FAISS index to {folder}")
      
 
 
