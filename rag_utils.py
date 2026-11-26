@@ -188,6 +188,29 @@ def save_faiss_store(store, folder=None) -> None:
     folder.mkdir(parents=True, exist_ok=True)
     store.save_local(str(folder))
     print(f"Saved FAISS index to {folder}")
+
+
+def load_faiss_store(folder=None):
+    """Load a FAISS index that this project previously saved.
+
+    LangChain requires allow_dangerous_deserialization because a saved index
+    uses pickle. Only load an index you created yourself.
+    """
+    from langchain_community.vectorstores import FAISS
+
+    from llm_client import get_embedding_model
+
+    folder = FAISS_INDEX_DIR if folder is None else folder
+    if not folder.exists():
+        raise FileNotFoundError(
+            f"No saved FAISS index at {folder}. Build one with create_faiss_store first."
+        )
+    return FAISS.load_local(
+        str(folder),
+        get_embedding_model(),
+        allow_dangerous_deserialization=True,
+    )
+
      
 
 
