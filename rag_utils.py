@@ -131,6 +131,46 @@ def Load_Documnet():
      print(f"Loaded {len(documents)} document parts from {DOCUMENTS_DIR.name}/.")
      return documents
 
+
+
+
+
+
+def split_documents(
+          documents:list[Document],
+          chunk_size:int=CHUNK_SIZE,
+          chunk_overlap:int=CHUNK_OVERLAP
+)->list[Document]:
+
+     # you document are splict into sentance line of paragraph 
+
+    spliter=RecursiveCharacterTextSplitter(
+          chunk_siz=chunk_size,
+          chunk_overlap=chunk_overlap,
+          separators=["\n\n", "\n", ". ", " ", ""]
+    )
+
+    chunks=spliter.split_documents(documents)
+
+    next_index: dict[str, int] = {}
+    for chunk in chunks:
+            chunk.metadata = dict(chunk.metadata)  # Create a copy of the metadata dictionary.
+            file_name = chunk.metadata.get("file_name", "document")
+            chunk.metadata["chunk_index"] = next_index.get(file_name, 0)  # Start at 0 for each file.
+            next_index[file_name] = chunk.metadata["chunk_index"] + 1  # Increment the index for the next chunk.
+    
+        # Remove chunks that contain only whitespace or are empty.
+    chunks = [chunk for chunk in chunks if chunk.page_content.strip()]
+    print(
+            f"Split those documents into {len(chunks)} chunks "
+            f"({chunk_size} characters, {chunk_overlap} overlap)."
+        )
+    return chunks
+     
+     
+
+
+
    
            
      
