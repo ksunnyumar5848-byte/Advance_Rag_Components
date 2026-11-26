@@ -166,7 +166,21 @@ def split_documents(
             f"({chunk_size} characters, {chunk_overlap} overlap)."
         )
     return chunks
-     
+
+
+def create_faisse_store(documents:list[Document]):
+     from langchain_community.vectorstores import FAISS
+
+     from llm_client import get_embedding_model
+
+     if not documents:
+        raise ValueError("Cannot build a FAISS index from an empty document list.")
+
+     print(f"Embedding {len(documents)} passages with {EMBEDDING_MODEL}...")
+     store = FAISS.from_documents(documents, get_embedding_model())
+     print("In-memory FAISS index is ready.")
+     return store
+
      
 
 
