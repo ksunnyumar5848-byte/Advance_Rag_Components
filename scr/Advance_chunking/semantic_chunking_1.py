@@ -23,9 +23,10 @@ def splict_sentance(text:str):
     return [piece.strip() for piece in pieces if len(piece.strip()) > 40]
 
 
-def cosieon_simalarity(left,right):
+def cosieon_simalarity(left,right) ->float:
     """
         Calculate how similar two vectors are based on the angle between them.
+        ***this methods are not find the simalarity chunk this methods calcuate the simalarity chunk  
     
         Returns:
             1.0  -> Vectors point in exactly the same direction.
@@ -46,5 +47,25 @@ def cosieon_simalarity(left,right):
     denominator = float(np.linalg.norm(left_vector) * np.linalg.norm(right_vector))
     if denominator == 0:
             return 0.0
-    return float(np.dot(left_vector, right_vector) / denominator) 
+    return float(np.dot(left_vector, right_vector) / denominator)
+
+def semantic_chunk(sentances:list[str],embeddings):
+     """
+         Group sentences into chunks based on semantic similarity.
+     
+         Returns:
+             chunks: Groups of sentences that are semantically related.
+             threshold: The similarity score used to decide where to split.
+     
+         Example:
+             Sentences discussing the same topic stay together.
+             A sentence with a significant topic change may start a new chunk.
+    """
+     vector=embeddings.embeds_documents(sentances) 
+
+
+     similaritys=[
+          cosieon_simalarity(vector[index],vector[index+1])
+          for index in range(len(vector)-1)
+     ]
 
